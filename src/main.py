@@ -1,62 +1,64 @@
 import pygame, sys
-from pygame.math import Vector2
 
 from classes.animal import Animal
 from classes.planta import Planta
 from constants import *
 
-pygame.init()
-pygame.display.set_caption('ecocraft')
+class Game:
+    def __init__(self):
+        pygame.init()
+        pygame.display.set_caption('ecocraft')
+        self.screen = pygame.display.set_mode((cellNum * cellSize + menuWidth, cellNum * cellSize))
+        self.clock = pygame.time.Clock()
+        self.map = Map(self.screen)
+    def run(self):
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+            self.map.drawDisplay()
 
-boardSurface = pygame.Surface((cellNum * cellSize, cellNum * cellSize))
-menuSurface = pygame.Surface((menuWidth, cellNum * cellSize))
+            pygame.display.update()
+            self.clock.tick(60)
 
-screen = pygame.display.set_mode((cellNum * cellSize + menuWidth, cellNum * cellSize))
+class Map:
+    def __init__(self,screen):
+        self.screen = screen
+        self.boardSurface = pygame.Surface((cellNum * cellSize, cellNum * cellSize))
+        self.menuSurface = pygame.Surface((menuWidth, cellNum * cellSize))
+        self.organismos =[]
+        self.initDisplay()
+        self.initOrganism()
+        self.drawOrganism()
+        self.drawDisplay()
 
-clock = pygame.time.Clock()
+    def initDisplay(self):
+        self.drawBoard(self.boardSurface)
+        self.menuSurface.fill(grey)
 
-lionSprite = pygame.transform.scale(pygame.image.load('assets/lion.png'), (cellSize, cellSize))
-plantaSprite = pygame.transform.scale(pygame.image.load('assets/planta.png'), (cellSize, cellSize))
+    def drawBoard(self,surface):
+        for row in range (cellNum):
+            for col in range (cellNum):
+                if (row + col) % 2 == 0:
+                    color = lighGreen
+                else:
+                    color = darkGreen
+                pygame.draw.rect(surface, color, (col * cellSize, row * cellSize, cellSize, cellSize))
 
-lion = Animal(lionSprite)
-org = Planta(plantaSprite)
+    def initOrganism(self):
+        for i in range(10):
+            animal = Animal(lionSprite)
+            self.organismos.append(animal)
+        for i in range (5):
+            planta = Planta(plantaSprite)
+            self.organismos.append(planta)
+    def drawOrganism(self):
+        for org in self.organismos:
+            org.draw(self.boardSurface)
+    def drawDisplay(self):
+        self.screen.blit(self.menuSurface, (cellNum * cellSize, 0))
+        self.screen.blit(self.boardSurface, (0, 0))
 
-def drawBoard(surface):
-    for row in range (cellNum):
-        for col in range (cellNum):
-            if (row + col) % 2 == 0:
-                color = lighGreen
-            else:
-                color = darkGreen
-            pygame.draw.rect(surface, color, (col * cellSize, row * cellSize, cellSize, cellSize))
-
-def initDisplay():
-    drawBoard(boardSurface)
-    menuSurface.fill(grey)
-    
-def drawDisplay():
-    screen.blit(menuSurface, (cellNum * cellSize, 0))
-    screen.blit(boardSurface, (0, 0))
-organismos = []
-def initOrganism():
-    for i in range(10):
-        animal = Animal(lionSprite)
-        organismos.append(animal)
-    for i in range(5):
-        planta = Planta(plantaSprite)
-        organismos.append(planta)
-def drawOrganism():
-    for org in organismos:
-        org.draw(boardSurface)
-
-initOrganism()
-while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
-    initDisplay()
-    drawOrganism()
-    drawDisplay()
-    pygame.display.update()
-    clock.tick(60)
+game = Game()
+game.run()
