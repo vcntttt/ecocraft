@@ -7,7 +7,7 @@ class Organismo:
     def __init__(self, sprite):
         self.sprite = sprite
         self.hp = 100
-        self.energy = 100
+        self.energy = 50
         self.vel = 1
         while True:
             self.x = random.randint(0, cellNum - 1)
