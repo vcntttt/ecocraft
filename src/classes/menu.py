@@ -2,26 +2,24 @@ import pygame
 from constants import *
 
 class Menu:
-    def __init__(self,screen):
+    def __init__(self):
         self.menuSurface = pygame.Surface((menuWidth, cellNum * cellSize))
-        self.screen = screen
-        self.fillMenu()
-
-    def fillMenu(self):
         self.menuSurface.fill(grey)
-
-    def updateHour(self,gameHour):
-        self.fillMenu()
-        h1Font = pygame.font.SysFont('Comic Sans MS', 30)
-        text = h1Font.render('Hour: ' + str(gameHour), True, black)
-        self.menuSurface.blit(text, (10, 10))
-        
-    def draw (self):
-        self.screen.blit(self.menuSurface, (cellNum * cellSize, 0))
-    # def updateStates(self,organismos):
-    #     normalFont = pygame.font.SysFont('Comic Sans MS', 12)
-    #     ypos = 650
-    #     for organismo in organismos:
-    #         text = normalFont.render(str(organismo.__class__.__name__) , True, black)
-    #         self.menuSurface.blit(text, (10, ypos))
-    #         ypos += 20
+    
+    def updateHour(self, gameHour):
+        self.menuSurface.fill(grey)
+        h1Font = pygame.font.SysFont(fontName, 32)
+        h1Text = h1Font.render('Hora: ' + str(gameHour) + ':00', True, black)
+        self.menuSurface.blit(h1Text, (10, 10))
+    
+    def updateStates(self, organismos):
+        ypos = 500
+        for org in organismos:
+            normalFont = pygame.font.SysFont(fontName, 14)
+            string = 'Organismo: ' + org.__class__.__name__ + str(org.pos)
+            normalText = normalFont.render(string, True, black)
+            self.menuSurface.blit(normalText, (10, ypos))
+            ypos += 30
+    
+    def draw(self, screen, position):
+        screen.blit(self.menuSurface, position)

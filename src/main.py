@@ -25,9 +25,9 @@ class Game:
             # Ciclos
             if self.counter >= 1000:
                 self.gameHour += 1
-                self.map.menu.updateHour(self.gameHour)
+                self.map.updateHour(self.gameHour)
                 self.map.updateOrganism()
-                # self.map.updateStates()
+                self.map.updateStates()
                 self.counter = 0
                 if self.gameHour == 24:
                     self.gameHour = 0

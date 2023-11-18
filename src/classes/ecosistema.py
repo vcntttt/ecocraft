@@ -12,7 +12,7 @@ class Ecosistema:
     def initOrgs(self):
         self.organismos.extend([Puma() for i in range(2)])
         self.organismos.extend([Oveja() for i in range(8)])
-        self.organismos.extend([Planta(plantaSprite) for i in range(10)])
+        self.organismos.extend([Planta(plantaSprite) for i in range(6)])
 
     def updateOrganism(self):
         for org in self.organismos:
@@ -22,5 +22,3 @@ class Ecosistema:
     def drawOrganism(self,surface):
         for org in self.organismos:
             org.draw(surface)
-    # def updateStates(self):
-    #     self.menu.updateStates(self.organismos)
