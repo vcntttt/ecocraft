@@ -10,6 +10,8 @@ class Game:
         self.clock = pygame.time.Clock()
         self.map = Map(self.screen)
         self.counter = 0
+        self.gameHour = 0
+        
     def run(self):
         while True:
             # Cerrar Ventana
@@ -20,10 +22,15 @@ class Game:
 
             # Actualizar cosas
             self.counter += self.clock.tick(60)
-            print(self.counter)
+            # Ciclos
             if self.counter >= 1000:
+                self.gameHour += 1
+                self.map.menu.updateHour(self.gameHour)
                 self.map.updateOrganism()
+                # self.map.updateStates()
                 self.counter = 0
+                if self.gameHour == 24:
+                    self.gameHour = 0
             self.map.drawDisplay()
             pygame.display.update()
 
