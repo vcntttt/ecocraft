@@ -5,21 +5,22 @@ class Menu:
     def __init__(self):
         self.menuSurface = pygame.Surface((menuWidth, cellNum * cellSize))
         self.menuSurface.fill(grey)
-    
+        self.h1Font = pygame.font.SysFont(fontName, h1Size)
+        self.normalFont = pygame.font.SysFont(fontName, pSize)
+
     def updateHour(self, gameHour):
         self.menuSurface.fill(grey)
-        h1Font = pygame.font.SysFont(fontName, 32)
-        h1Text = h1Font.render('Hora: ' + str(gameHour) + ':00', True, black)
-        self.menuSurface.blit(h1Text, (10, 10))
+        horaText = self.h1Font.render('Hora: ' + str(gameHour) + ':00', True, black)
+        self.menuSurface.blit(horaText, (10, 10))
     
     def updateStates(self, organismos):
         ypos = 500
         for org in organismos:
-            normalFont = pygame.font.SysFont(fontName, 14)
-            string = 'Organismo: ' + org.__class__.__name__ + str(org.pos)
-            normalText = normalFont.render(string, True, black)
-            self.menuSurface.blit(normalText, (10, ypos))
-            ypos += 30
+            if org.hp > 0:
+                string = org.__class__.__name__ +': '+ str(org.rect.topleft)
+                orgText = self.normalFont.render(string, True, black)
+                self.menuSurface.blit(orgText, (10, ypos))
+                ypos += 30
     
     def draw(self, screen, position):
         screen.blit(self.menuSurface, position)

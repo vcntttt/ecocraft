@@ -25,12 +25,11 @@ class Game:
             # Ciclos
             if self.counter >= 1000:
                 self.gameHour += 1
-                self.map.updateHour(self.gameHour)
-                self.map.updateOrganism()
-                self.map.updateStates()
+                self.map.updateForTurn()
                 self.counter = 0
                 if self.gameHour == 24:
                     self.gameHour = 0
+            self.map.update(self.gameHour)
             self.map.drawDisplay()
             pygame.display.update()
 

@@ -16,21 +16,20 @@ class Map:
         for row in range (cellNum):
             for col in range (cellNum):
                 if (row + col) % 2 == 0:
-                    color = lighGreen
+                    sprite = tile1Sprite
                 else:
-                    color = darkGreen
-                pygame.draw.rect(surface, color, (col * cellSize, row * cellSize, cellSize, cellSize))
+                    sprite = tile2Sprite
+                surface.blit(sprite,(col * cellSize, row * cellSize))
 
     def drawDisplay(self):
         self.initDisplay()
-        self.ecosistema.drawOrganism(self.boardSurface)
+        self.ecosistema.orgsGroup.draw(self.boardSurface)
         self.screen.blit(self.boardSurface, (0, 0))
         self.menu.draw(self.screen, (cellNum * cellSize, 0))
 
-    # Actualizar
-    def updateHour(self, gameHour):
+    def update(self,gameHour):
         self.menu.updateHour(gameHour)
-    def updateStates(self):
-        self.menu.updateStates(self.ecosistema.organismos)
-    def updateOrganism(self):
-        self.ecosistema.updateOrganism()
+        self.menu.updateStates(self.ecosistema.orgsGroup)
+        
+    def updateForTurn(self):
+        self.ecosistema.orgsGroup.update()
