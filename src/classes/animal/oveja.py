@@ -3,7 +3,6 @@ from constants import ovejaSprite
 
 class Oveja(Herviboro):
     def __init__(self):
+        super().__init__(ovejaSprite)
         self.especie = 'oveja'
         self.rango = 0
-        self.sprite = ovejaSprite
-        super().__init__(self.sprite)

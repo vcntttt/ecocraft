@@ -21,31 +21,34 @@ tile2Sprite = pygame.transform.scale(pygame.image.load('assets/tile2.jpg'), (cel
 fontName = 'Minecraft'
 # Sizes
 h1Size = 32
-pSize = 24
+pSize = 20
 
 stats = {
     'puma':{
-        'hp' : 150,
-        'energy' : 80,
+        'maxHp' : 150,
+        'maxEnergy' : 80,
         'vel' : 2,
         'attack' : 50,
         'sprite' : pumaSprite,
-        'attackRange' : 2,
-        'visionRange' : 4,
+        'attackRange' : 2 * cellSize,
+        'visionRange' : 4 * cellSize,
+        'dieta' : 'carnivoro',
         'especie' : 'puma',
-    }, 
+    },
     'oveja':{
-        'hp' : 100,
-        'energy' : 50,
+        'maxHp' : 100,
+        'maxEnergy' : 50,
         'vel' : 1,
         'attack' : 10,
         'sprite' : ovejaSprite,
-        'attackRange' : 0,
+        'attackRange' : 0 * cellSize,
+        'visionRange' : 2 * cellSize,
+        'dieta' : 'herbivoro',
         'especie' : 'oveja',
     },
     'cabra':{},
     'conejo':{},
-    'zorro' :{},
     'nandu':{},
+    'zorro' :{},
     'condor':{},
 }

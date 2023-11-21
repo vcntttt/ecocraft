@@ -16,8 +16,8 @@ class Menu:
     def updateStates(self, organismos):
         ypos = 500
         for org in organismos:
-            if org.hp > 0:
-                string = org.__class__.__name__ +': '+ str(org.rect.topleft)
+            if org.hp >= 0:
+                string = (f"{org.__class__.__name__}{org.rect.topleft} - HP: {org.hp} - Energy: {org.energy}")
                 orgText = self.normalFont.render(string, True, black)
                 self.menuSurface.blit(orgText, (10, ypos))
                 ypos += 30

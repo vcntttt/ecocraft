@@ -30,6 +30,7 @@ class Map:
     def update(self,gameHour):
         self.menu.updateHour(gameHour)
         self.menu.updateStates(self.ecosistema.orgsGroup)
+        self.ecosistema.hunting(self.ecosistema.orgsGroup)
         
     def updateForTurn(self):
         self.ecosistema.orgsGroup.update()
