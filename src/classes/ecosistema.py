@@ -21,7 +21,7 @@ class Ecosistema:
             planta = Planta(plantaSprite)
             self.orgsGroup.add(planta)
 
-    def hunting(self, organismos):
-        for org in organismos:
-            if(isinstance(org, Carnivoro)):
-                org.search(organismos)
+    def update(self):
+        for org in self.orgsGroup:
+            if (isinstance(org, Animal)):
+                org.detectOrgs(self.orgsGroup)

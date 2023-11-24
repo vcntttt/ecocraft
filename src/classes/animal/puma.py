@@ -3,6 +3,10 @@ from constants import pumaSprite, cellSize
 
 class Puma(Carnivoro):
     def __init__(self):
-        super().__init__(pumaSprite)
+        self.hp = 150
+        self.energy = 80
+        self.attack = 50
         self.especie = 'puma'
         self.attackRange = 2 * cellSize
+        self.visionRange = 3 * cellSize
+        super().__init__(pumaSprite, self.hp, self.energy, self.attackRange, self.visionRange)

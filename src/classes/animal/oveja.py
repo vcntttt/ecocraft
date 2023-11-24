@@ -1,8 +1,12 @@
 from classes.animal.herviboro import Herviboro
-from constants import ovejaSprite
+from constants import ovejaSprite, cellSize
 
 class Oveja(Herviboro):
     def __init__(self):
-        super().__init__(ovejaSprite)
+        self.hp = 100
+        self.energy = 50
+        self.attack = 10
         self.especie = 'oveja'
-        self.rango = 0
+        self.attackRange = 0 * cellSize
+        self.visionRange = 2 * cellSize
+        super().__init__(ovejaSprite, self.hp, self.energy, self.attackRange, self.visionRange)
