@@ -1,0 +1,41 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "ecocraft_map.tmx",
+    "expandedProjectPaths": [
+    ],
+    "file.lastUsedOpenFilter": "Todos los archivos (*)",
+    "fileStates": {
+        "eco_tiles.tsx": {
+            "scaleInDock": 3,
+            "scaleInEditor": 1
+        },
+        "ecocraft_map.tmx": {
+            "scale": 2,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 286.5,
+                "y": 158.5
+            }
+        }
+    },
+    "last.imagePath": "C:/Users/ferna/OneDrive/Escritorio/mapa/Solaria Demo Pack Update 03/16x16/Tilesets",
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
+    "openFiles": [
+        "ecocraft_map.tmx"
+    ],
+    "project": "eco_map.tiled-project",
+    "recentFiles": [
+        "ecocraft_map.tmx",
+        "eco_tiles.tsx"
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 16,
+        "width": 16
+    }
+}
