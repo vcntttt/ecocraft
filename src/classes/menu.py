@@ -14,7 +14,7 @@ class Menu:
         self.menuSurface.blit(horaText, (10, 10))
     
     def updateStates(self, organismos):
-        ypos = 500
+        ypos = 400
         for org in organismos:
             if org.hp >= 0:
                 string = (f"{org.__class__.__name__}{org.rect.topleft} - HP: {org.hp} - Energy: {org.energy}")

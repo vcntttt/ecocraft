@@ -2,13 +2,16 @@ import pygame
 from classes.ecosistema import Ecosistema
 from classes.menu import Menu
 from constants import *
+
 class Map:
     def __init__(self,screen):
+        # Principal
         self.screen = screen
         self.boardSurface = pygame.Surface((cellNum * cellSize, cellNum * cellSize))
         self.menuSurface = pygame.Surface((menuWidth, cellNum * cellSize))
         self.ecosistema = Ecosistema()
         self.menu = Menu()
+
     def initDisplay(self):
         self.drawBoard(self.boardSurface)
         
@@ -18,7 +21,7 @@ class Map:
                 if (row + col) % 2 == 0:
                     sprite = tile1Sprite
                 else:
-                    sprite = tile2Sprite
+                    sprite = tile1Sprite
                 surface.blit(sprite,(col * cellSize, row * cellSize))
 
     def drawDisplay(self):
@@ -31,6 +34,4 @@ class Map:
         self.menu.updateHour(gameHour)
         self.menu.updateStates(self.ecosistema.orgsGroup)
         self.ecosistema.update()
-        
-    def updateForTurn(self):
-        self.ecosistema.orgsGroup.update()
+        self.ecosistema.orgsGroup.update(self.ecosistema.orgsGroup)

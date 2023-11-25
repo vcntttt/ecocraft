@@ -1,9 +1,8 @@
 from classes.animal.animal import Animal
-from classes.organismo import Organismo
 from classes.animal.puma import Puma
+from classes.animal.condor import Condor
 from classes.animal.oveja import Oveja
 from classes.planta.planta import Planta
-from classes.animal.carnivoro import Carnivoro
 from constants import *
 
 class Ecosistema:
@@ -20,7 +19,9 @@ class Ecosistema:
             self.orgsGroup.add(animal)
             planta = Planta(plantaSprite)
             self.orgsGroup.add(planta)
-
+        condor = Condor()
+        self.orgsGroup.add(condor)
+        
     def update(self):
         for org in self.orgsGroup:
             if (isinstance(org, Animal)):

@@ -1,22 +1,30 @@
 import pygame
+
 # Parametros
 cellSize = 64
 cellNum = 15
 menuWidth = cellSize * 5
+resolution = (15 * cellSize + menuWidth, cellNum * cellSize)
+mapSize = (cellNum * cellSize, cellNum * cellSize)
 
 # Colores
 lighGreen = pygame.Color('#ACE1AF')
 darkGreen = pygame.Color('#03C03C')
 grey = pygame.Color('#D3D3D3')
 black = pygame.Color('#000000')
+yellow = pygame.Color('#FFFF00')
 
 # Sprites
-plantaSprite = pygame.transform.scale(pygame.image.load('assets/planta.png'), (cellSize, cellSize))
-ovejaSprite = pygame.transform.scale(pygame.image.load('assets/oveja.png'), (cellSize, cellSize))
-pumaSprite = pygame.transform.scale(pygame.image.load('assets/puma.png'), (cellSize, cellSize))
-tile1Sprite = pygame.transform.scale(pygame.image.load('assets/tile1.jpg'), (cellSize, cellSize))
-tile2Sprite = pygame.transform.scale(pygame.image.load('assets/tile2.jpg'), (cellSize, cellSize))
+def loadImg(path):
+    return pygame.transform.scale(pygame.image.load(path), (cellSize, cellSize))
 
+pumaSprite = loadImg('assets/puma.png')
+ovejaSprite = loadImg('assets/oveja.png')
+plantaSprite = loadImg('assets/planta.png')
+condorSprite = loadImg('assets/condor.png')
+arbolSprite = loadImg('assets/arbol.png')
+tile1Sprite = loadImg('assets/tile1.jpg')
+tile2Sprite = loadImg('assets/tile2.jpg')
 # Font
 fontName = 'Minecraft'
 # Sizes

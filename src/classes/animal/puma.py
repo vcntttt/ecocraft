@@ -7,6 +7,6 @@ class Puma(Carnivoro):
         self.energy = 80
         self.attack = 50
         self.especie = 'puma'
-        self.attackRange = 2 * cellSize
+        self.attackRange = 1 * cellSize
         self.visionRange = 3 * cellSize
-        super().__init__(pumaSprite, self.hp, self.energy, self.attackRange, self.visionRange)
+        super().__init__(pumaSprite, self.hp, self.energy, self.attackRange, self.visionRange, self.attack)

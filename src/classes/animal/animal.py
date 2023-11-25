@@ -2,36 +2,42 @@ import random
 from pygame.math import Vector2
 from classes.organismo import Organismo
 from constants import *
-# tiene que cazar, descomponerse y morir
+
 class Animal(Organismo):
-    def __init__(self,sprite, hp, nrg, nTrofico, attackRange, visionRange):
+    def __init__(self,sprite, hp, nrg, nTrofico, attackRange, visionRange, attack, speed=0.15):
         self.genero = random.randint(0,1) #0 para hembra y 1 para macho
-        self.animationSpeed = 1
+        self.animationSpeed = speed
         self.isChasing = False
         self.isHiting = False
         self.target = None
         self.attackRange = attackRange
         self.visionRange = visionRange
+        self.attack = attack
         super().__init__(sprite, hp, nrg, nTrofico)
 
-    def move(self):
-        self.energy -= 10
-        if self.energy <= 0:
-            print("die")
-            # self.die()
-            return
-        dx = random.choice([-self.animationSpeed,0,self.animationSpeed])
-        dy = random.choice([-self.animationSpeed,0,self.animationSpeed])
-        
-        newX = self.rect.x + dx * cellSize
-        newY = self.rect.y + dy * cellSize
+    def move(self, orgs):
+            movimiento = 4
+            dx = random.choice([-1,0,1]) / movimiento
+            dy = random.choice([-1,0,1]) / movimiento
 
-        newX = max(0, min(newX, (cellNum - 1) * cellSize))
-        newY = max(0, min(newY, (cellNum - 1) * cellSize))
+            newX = self.rect.x + dx * cellSize
+            newY = self.rect.y + dy * cellSize
 
-        self.rect.topleft = (newX, newY)
+            newX = max(0, min(newX, (cellNum - 1) * cellSize))
+            newY = max(0, min(newY, (cellNum - 1) * cellSize))
+            validMove = True
+            newRect = self.rect.copy()
+            newRect.topleft = (newX, newY)
+            for animal in orgs:
+                if animal != self and pygame.sprite.collide_rect(self, animal):
+                    self.rect.x -= dx * cellSize
+                    self.rect.y -= dy * cellSize
+                    break
 
-    def getDirection(self,org):
+            if validMove:
+                self.rect.topleft = (newX, newY)
+
+    def getDirection(self, org):
         enemyVector = Vector2(org.rect.center)
         myVector = Vector2(self.rect.center)
         distance = (enemyVector - myVector).magnitude()
@@ -45,35 +51,50 @@ class Animal(Organismo):
     def detectOrgs(self,orgs):
         if self.energy == self.maxEnergy: return
         for org in orgs:
-            if org != self:
-                distance , direction = self.getDirection(org)
-                if org.nivelTrofico < (self.nivelTrofico - 1):
-                    if distance < self.visionRange:
-                        self.chase(org,direction)
-                        return
+            if org != self and org.isAlive:
+                if self.isAlive:
+                    distance , direction = self.getDirection(org)
+                    if org.nivelTrofico == (self.nivelTrofico - 1):
+                        if distance < self.visionRange:
+                            self.target = org
+                            self.chase(org,direction)
+                            return
                 
     def chase(self,target,direction):
-        self.target = target
+        if not target.isAlive:
+            self.target = None
+            self.isChasing = False
+            return
         self.isChasing = True
-        self.rect.x += direction.x * self.animationSpeed
-        self.rect.y += direction.y * self.animationSpeed
+        self.rect.x += direction.x * 1
+        self.rect.y += direction.y * 1
 
         if self.rect.colliderect(self.target.rect):
             self.targetAlcanzado(target)
 
     def targetAlcanzado(self,target):
         self.isChasing = False
-        self.target = None
+        self.isHiting = True
 
-    def attack(self,target):
-        target.hp -= 50
+    def attackTarget(self,target):
+        if not target: return
+        target.hp -= self.attack
+        self.energy += (target.maxHp / 2)
         if target.hp <= 0:
             target.die()
+            self.isHiting = False
+            self.target = None
 
-    def gainEnergy(self, nrg):
-        self.energy += nrg
-
-    def update(self):
+    def update(self, orgs):
+        super().update(orgs)
+        if self.isAlive:
+            self.energy -= 1
+            if self.energy <= 0:
+                self.hp -= 10
+                if self.hp <= 0:
+                    self.die()
+                    return
+        else: return
         if self.isChasing:
             if self.target and self.getDirection(self.target)[0] > self.visionRange:
                 self.isChasing = False
@@ -81,5 +102,12 @@ class Animal(Organismo):
             else:
                 _, direction = self.getDirection(self.target)
                 self.chase(self.target, direction)
+        elif self.isHiting:
+            if self.target and not self.target.isAlive:
+                self.isHiting = False
+                self.target = None
+            else:
+                self.attackTarget(self.target)
         else:
-            self.move()
+            self.move(orgs)
+                    

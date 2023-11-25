@@ -6,12 +6,19 @@ class Game:
     def __init__(self):
         pygame.init()
         pygame.display.set_caption('ecocraft')
-        self.screen = pygame.display.set_mode((cellNum * cellSize + menuWidth, cellNum * cellSize))
+        self.screen = pygame.display.set_mode(resolution)
         self.clock = pygame.time.Clock()
         self.map = Map(self.screen)
         self.counter = 0
+        self.counter2 = 0
         self.gameHour = 0
-        
+        self.time = 0
+
+        # Primera ejecucion
+        self.map.update(self.gameHour)
+        self.map.drawDisplay()
+        pygame.display.update()
+
     def run(self):
         while True:
             # Cerrar Ventana
@@ -21,17 +28,20 @@ class Game:
                     sys.exit()
 
             # Actualizar cosas
-            self.counter += self.clock.tick(60)
+            self.time += self.clock.tick(5)
+            self.counter += self.time
+            self.counter2 += self.time
+
             # Ciclos
             if self.counter >= 1000:
                 self.gameHour += 1
-                self.map.updateForTurn()
                 self.counter = 0
                 if self.gameHour == 24:
                     self.gameHour = 0
+
             self.map.update(self.gameHour)
             self.map.drawDisplay()
             pygame.display.update()
-
+            
 game = Game()
 game.run()
