@@ -1,6 +1,8 @@
-import pygame, sys
+import pygame
+import sys
 from constants import *
 from classes.map import Map
+from classes.rain import Gota
 
 class Game:
     def __init__(self):
@@ -13,19 +15,28 @@ class Game:
         self.counter2 = 0
         self.gameHour = 0
         self.time = 0
-
-        # Primera ejecucion
+        self.bg_color = (240, 248, 255)  
+        
+        # Primera ejecución
         self.map.update(self.gameHour)
         self.map.drawDisplay()
         pygame.display.update()
 
     def run(self):
+        gotas = [Gota() for _ in range(100)]  
+
         while True:
             # Cerrar Ventana
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
+
+            self.screen.fill(self.bg_color)  
+
+            for rain in gotas:
+                rain.caida()  
+                rain.show(self.screen)  
 
             # Actualizar cosas
             self.time += self.clock.tick(5)
@@ -42,6 +53,6 @@ class Game:
             self.map.update(self.gameHour)
             self.map.drawDisplay()
             pygame.display.update()
-            
+
 game = Game()
 game.run()

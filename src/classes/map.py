@@ -3,11 +3,6 @@ from classes.ecosistema import Ecosistema
 from classes.menu import Menu
 from constants import *
 
-import pygame
-from classes.ecosistema import Ecosistema
-from classes.menu import Menu
-from constants import *
-
 class Map:
     def __init__(self,screen):
         # Principal
