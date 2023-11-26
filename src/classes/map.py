@@ -25,7 +25,17 @@ class Map:
                 cell = self.matrix[row][col]
                 if cell == 1:
                     sprite = p1Sprite
-                #elif cell == 2:
+                elif cell == 'r':
+                    sprite = rioSprite
+                elif cell == 'r2':
+                    sprite = rio2Sprite
+                elif cell == 'c1':
+                    sprite = c1Sprite
+                elif cell == 'c2':
+                    sprite = c2Sprite
+                elif cell == 'pd1':
+                    sprite = pd1Sprite
+                
                 surface.blit(sprite,(col * cellSize, row * cellSize))
 
     def drawDisplay(self):
