@@ -1,10 +1,13 @@
 import pygame
 
 # Parametros
-cellSize = 20
+cellSize = 64
 cellNum = 45
-menuWidth = cellSize * 40
-resolution = (15 * cellSize + menuWidth, cellNum * cellSize)
+viewCellNum = 15
+# Dimensiones
+menuWidth = cellSize * 5
+resolution = (viewCellNum * cellSize + menuWidth, viewCellNum * cellSize)
+visibleSize = (viewCellNum * cellSize, viewCellNum * cellSize)
 mapSize = (cellNum * cellSize, cellNum * cellSize)
 
 # Colores
@@ -29,41 +32,12 @@ rio2Sprite =loadImg('assets/rio2.png')
 c1Sprite = loadImg('assets/c1.png')
 c2Sprite = loadImg('assets/c2.png')
 pd1Sprite = loadImg('assets/piedra.jpg')
+t1Sprite = loadImg('assets/tile1.jpg')
 # Font
 fontName = 'Minecraft'
 # Sizes
 h1Size = 32
 pSize = 20
-
-stats = {
-    'puma':{
-        'maxHp' : 150,
-        'maxEnergy' : 80,
-        'vel' : 2,
-        'attack' : 50,
-        'sprite' : pumaSprite,
-        'attackRange' : 2 * cellSize,
-        'visionRange' : 4 * cellSize,
-        'dieta' : 'carnivoro',
-        'especie' : 'puma',
-    },
-    'oveja':{
-        'maxHp' : 100,
-        'maxEnergy' : 50,
-        'vel' : 1,
-        'attack' : 10,
-        'sprite' : ovejaSprite,
-        'attackRange' : 0 * cellSize,
-        'visionRange' : 2 * cellSize,
-        'dieta' : 'herbivoro',
-        'especie' : 'oveja',
-    },
-    'cabra':{},
-    'conejo':{},
-    'nandu':{},
-    'zorro' :{},
-    'condor':{},
-}
 
 map = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 'c1', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,1],
@@ -72,7 +46,7 @@ map = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 'c1', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,1],
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 'c1', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,1],
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 'c1', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,1],
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 'c1', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1.1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 'c1', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,1],
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 'c1', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,1],
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 'c1', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,1],
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 'c1', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,1],

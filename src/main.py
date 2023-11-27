@@ -15,15 +15,10 @@ class Game:
         self.counter2 = 0
         self.gameHour = 0
         self.time = 0
-        self.bg_color = (240, 248, 255)  
         
-        # Primera ejecución
-        self.map.update(self.gameHour)
-        self.map.drawDisplay()
-        pygame.display.update()
 
     def run(self):
-        gotas = [Gota() for _ in range(100)]  
+        # gotas = [Gota() for _ in range(100)]  
 
         while True:
             # Cerrar Ventana
@@ -31,27 +26,28 @@ class Game:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
+                if event.type == pygame.MOUSEMOTION:
+                    nMx,nMy = event.pos
+                if event.type == pygame.MOUSEBUTTONUP:
+                    self.map.updateMap(nMx,nMy)
 
-            self.screen.fill(self.bg_color)  
-
-            for rain in gotas:
-                rain.caida()  
-                rain.show(self.screen)  
+            # for rain in gotas:
+            #     rain.caida()  
+            #     rain.show(self.screen)
 
             # Actualizar cosas
-            self.time += self.clock.tick(5)
+            self.time += self.clock.tick(30)
             self.counter += self.time
             self.counter2 += self.time
 
             # Ciclos
-            if self.counter >= 1000:
-                self.gameHour += 1
+            if self.counter >= 5000:
+                # self.gameHour += 1
                 self.counter = 0
                 if self.gameHour == 24:
                     self.gameHour = 0
 
-            self.map.update(self.gameHour)
-            self.map.drawDisplay()
+            self.map.draw(self.gameHour)
             pygame.display.update()
 
 game = Game()
