@@ -12,17 +12,21 @@ class Ecosistema:
         
     def initOrgs(self):
         for i in range(2):
-            animal = Puma()
+            animal = Puma(self)
             self.orgsGroup.add(animal)
         for i in range(8):
-            animal = Oveja()
+            animal = Oveja(self)
             self.orgsGroup.add(animal)
             planta = Planta(plantaSprite)
             self.orgsGroup.add(planta)
-        condor = Condor()
+        condor = Condor(self)
         self.orgsGroup.add(condor)
         
     def update(self):
         for org in self.orgsGroup:
             if (isinstance(org, Animal)):
-                org.detectOrgs(self.orgsGroup)
+                if org.isAlive:
+                    org.detectOrgs(self.orgsGroup)
+
+    def newAnimal(self, animal):
+        self.orgsGroup.add(animal)
