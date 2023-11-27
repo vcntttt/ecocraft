@@ -1,10 +1,10 @@
 # Proyecto INFO 1118
-Participantes del Proyecto : Vicente Rivera, Fernando Prieto
+Participantes del Proyecto: Vicente Rivera, Fernando Prieto
 #
 Carrera Perteneciente: Ing. Civil Informática.        
 
 # Descripción 
-Muy buenas profesor y espectadores, esperando que se encuentren bien, queremos hacer presentación de nuestro proyecto final de programación 2 año 2023.
+Muy buenas profesor y espectadores, esperando que se encuentren bien, queremos hacer presentación de nuestro proyecto final de Programación II año 2023.
 Teniendo esta oportunidad para que explayemos lo realizado frente a los desafíos y soluciones a las cual nos hemos enfrentado, implementando desarrollos en el código y nuestra creatividad.
 Discutiremos los beneficios y dificultades que hemos tenido hasta este momento a través de nuestra organización y tiempo implicado. 
 
