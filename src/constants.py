@@ -16,7 +16,7 @@ darkGreen = pygame.Color('#03C03C')
 grey = pygame.Color('#D3D3D3')
 black = pygame.Color('#000000')
 yellow = pygame.Color('#FFFF00')
-
+red = pygame.Color('#FF0000')
 # Sprites
 def loadImg(path):
     return pygame.transform.scale(pygame.image.load(path), (cellSize, cellSize))

@@ -15,6 +15,7 @@ class Game:
         self.counter2 = 0
         self.gameHour = 0
         self.time = 0
+        self.map.draw(self.gameHour)
         
 
     def run(self):
@@ -36,17 +37,17 @@ class Game:
             #     rain.show(self.screen)
 
             # Actualizar cosas
-            self.time += self.clock.tick(30)
+            self.time += self.clock.tick(60)
             self.counter += self.time
             self.counter2 += self.time
 
             # Ciclos
             if self.counter >= 5000:
-                # self.gameHour += 1
+                self.gameHour += 1
                 self.counter = 0
                 if self.gameHour == 24:
                     self.gameHour = 0
-
+            pygame.time.wait(100)
             self.map.draw(self.gameHour)
             pygame.display.update()
 

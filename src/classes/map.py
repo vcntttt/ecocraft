@@ -2,7 +2,6 @@ import pygame
 from classes.ecosistema import Ecosistema
 from classes.menu import Menu
 from constants import *
-
 class Map:
     def __init__(self,screen):
         self.screen = screen
@@ -53,13 +52,19 @@ class Map:
     def drawMinimap(self):
         minimapRect = pygame.Rect(self.mmapPos[0],self.mmapPos[1],self.minimapSize[0],self.minimapSize[1])
         pygame.draw.rect(self.screen,darkGreen,minimapRect)
+        for org in self.ecosistema.orgsGroup:
+            xp = int(org.rect[0] /mapSize[0] * self.minimapSize[0] + self.mmapPos[0])
+            yp = int(org.rect[1] /mapSize[1] * self.minimapSize[1] + self.mmapPos[1])
+            spriteScaled = pygame.transform.scale(org.image,(20,20))
+            self.screen.blit(spriteScaled,(xp,yp))
         
     def draw(self,gameHour):
-        self.screen.blit(self.visibleSurface,(0,0))
+        self.loadMap()
         self.menu.draw(self.screen, (viewCellNum * cellSize, 0))
         self.drawMinimap()
         self.menu.updateHour(gameHour)
-        # self.menu.updateStates(self.ecosistema.orgsGroup)
-        # self.ecosistema.update()
+        self.menu.updateStates(self.ecosistema.orgsGroup)
         self.ecosistema.orgsGroup.draw(self.fullMapSurface)
-        # self.ecosistema.orgsGroup.update(self.ecosistema.orgsGroup)
+        self.ecosistema.orgsGroup.update(self.ecosistema.orgsGroup)
+        self.ecosistema.update()
+        self.screen.blit(self.visibleSurface,(0,0))

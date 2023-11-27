@@ -18,9 +18,8 @@ class Animal(Organismo):
         super().__init__(sprite, hp, nrg, nTrofico)
 
     def move(self, orgs):
-            movimiento = 4
-            dx = random.choice([-1,0,1]) / movimiento
-            dy = random.choice([-1,0,1]) / movimiento
+            dx = random.choice([-1,0,1])  
+            dy = random.choice([-1,0,1]) 
 
             newX = self.rect.x + dx * cellSize
             newY = self.rect.y + dy * cellSize
@@ -102,9 +101,9 @@ class Animal(Organismo):
     def update(self, orgs):
         super().update(orgs)
         if self.isAlive:
-            self.energy -= 1
+            self.energy -= 0.5
             if self.energy <= 0:
-                self.hp -= 10
+                self.hp -= 1
                 if self.hp <= 0:
                     self.die()
                     return

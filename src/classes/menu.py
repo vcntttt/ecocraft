@@ -21,6 +21,6 @@ class Menu:
                 orgText = self.normalFont.render(string, True, black)
                 self.menuSurface.blit(orgText, (10, ypos))
                 ypos += 30
-    
+                
     def draw(self, screen, position):
         screen.blit(self.menuSurface, position)
