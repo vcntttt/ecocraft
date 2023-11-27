@@ -2,7 +2,7 @@ import pygame
 
 # Parametros
 cellSize = 64
-cellNum = 45
+cellNum = 15
 viewCellNum = 15
 # Dimensiones
 menuWidth = cellSize * 5
@@ -17,6 +17,7 @@ grey = pygame.Color('#D3D3D3')
 black = pygame.Color('#000000')
 yellow = pygame.Color('#FFFF00')
 red = pygame.Color('#FF0000')
+lighBlue = pygame.Color('#ADD8E6')
 # Sprites
 def loadImg(path):
     return pygame.transform.scale(pygame.image.load(path), (cellSize, cellSize))
@@ -33,6 +34,7 @@ c1Sprite = loadImg('assets/c1.png')
 c2Sprite = loadImg('assets/c2.png')
 pd1Sprite = loadImg('assets/piedra.jpg')
 t1Sprite = loadImg('assets/tile1.jpg')
+seedSprite = loadImg('assets/seed.png')
 # Font
 fontName = 'Minecraft'
 # Sizes

@@ -47,10 +47,17 @@ class Organismo(pygame.sprite.Sprite):
             self.decompositionProgress += 1
             self.drawBar(yellow, self.decompositionProgress, self.decompositionTime)
             if self.decompositionProgress >= self.decompositionTime:
+                from classes.animal.animal import Animal
+                from classes.planta.planta import Planta
+                if isinstance(self, Animal):
+                    newPlant = Planta(plantaSprite)
+                    newPlant.rect.topleft = self.rect.topleft
+                    orgs.add(newPlant)
                 self.kill()
+                
         if self.isBorning:
             self.borningProgress += 1
-            self.drawBar(lighGreen, self.borningProgress, self.borningTime)
+            self.drawBar(red, self.borningProgress, self.borningTime)
             if self.borningProgress >= self.borningTime:
                 self.isBorning = False
                 self.isDecomposing = True

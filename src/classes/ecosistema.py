@@ -9,24 +9,33 @@ class Ecosistema:
     def __init__(self):
         self.orgsGroup = pygame.sprite.Group()
         self.initOrgs()
-        
+        self.bornCount = 0
+        self.dieCount = 0
+
     def initOrgs(self):
-        for i in range(2):
+        for _ in range(2):
             animal = Puma(self)
             self.orgsGroup.add(animal)
-        for i in range(8):
+        for _ in range(16):
             animal = Oveja(self)
             self.orgsGroup.add(animal)
-            planta = Planta(plantaSprite)
+        for _ in range(10):
+            planta = Planta(self)
             self.orgsGroup.add(planta)
-        condor = Condor(self)
-        self.orgsGroup.add(condor)
+        # condor = Condor(self)
+        # self.orgsGroup.add(condor)
         
-    def update(self):
+    def update(self, gameHour):
         for org in self.orgsGroup:
             if (isinstance(org, Animal)):
                 if org.isAlive:
                     org.detectOrgs(self.orgsGroup)
+                    org.detectOrgsToCoito(self.orgsGroup)
+            if isinstance(org, Planta):
+                org.fotosintesis(gameHour)
 
-    def newAnimal(self, animal):
-        self.orgsGroup.add(animal)
+    def saveData(self):
+        pass
+
+    def newOrg(self, org):
+        self.orgsGroup.add(org)

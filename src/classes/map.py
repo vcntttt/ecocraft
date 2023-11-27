@@ -11,8 +11,8 @@ class Map:
         self.mmapPos = ((viewCellNum * cellSize) + 10,200)
         self.viewCoords = (0,0)
         self.matrix = map
-        self.menu = Menu()
         self.ecosistema = Ecosistema()
+        self.menu = Menu(self.ecosistema)
         self.loadMap()
 
     def loadMap(self):
@@ -66,5 +66,5 @@ class Map:
         self.menu.updateStates(self.ecosistema.orgsGroup)
         self.ecosistema.orgsGroup.draw(self.fullMapSurface)
         self.ecosistema.orgsGroup.update(self.ecosistema.orgsGroup)
-        self.ecosistema.update()
+        self.ecosistema.update(gameHour)
         self.screen.blit(self.visibleSurface,(0,0))

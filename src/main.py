@@ -15,7 +15,6 @@ class Game:
         self.counter2 = 0
         self.gameHour = 0
         self.time = 0
-        self.map.draw(self.gameHour)
         
 
     def run(self):
@@ -47,8 +46,8 @@ class Game:
                 self.counter = 0
                 if self.gameHour == 24:
                     self.gameHour = 0
-            pygame.time.wait(100)
             self.map.draw(self.gameHour)
+            pygame.time.wait(100)
             pygame.display.update()
 
 game = Game()
