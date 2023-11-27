@@ -4,7 +4,7 @@ from classes.organismo import Organismo
 from constants import *
 
 class Animal(Organismo):
-    def __init__(self,sprite, hp, nrg, nTrofico, attackRange, visionRange, attack, speed=0.15):
+    def __init__(self,sprite, hp, nrg, nTrofico, attackRange, visionRange, attack, especie ,ecosistema ,speed=0.15, ):
         self.genero = random.randint(0,1) #0 para hembra y 1 para macho
         self.animationSpeed = speed
         self.isChasing = False
@@ -13,6 +13,8 @@ class Animal(Organismo):
         self.attackRange = attackRange
         self.visionRange = visionRange
         self.attack = attack
+        self.especie = especie
+        self.ecosistema = ecosistema
         super().__init__(sprite, hp, nrg, nTrofico)
 
     def move(self, orgs):
@@ -52,14 +54,26 @@ class Animal(Organismo):
         if self.energy == self.maxEnergy: return
         for org in orgs:
             if org != self and org.isAlive:
-                if self.isAlive:
-                    distance , direction = self.getDirection(org)
-                    if org.nivelTrofico == (self.nivelTrofico - 1):
-                        if distance < self.visionRange:
-                            self.target = org
-                            self.chase(org,direction)
-                            return
-                
+                distance , direction = self.getDirection(org)
+                if org.nivelTrofico == (self.nivelTrofico - 1):
+                    if distance < self.visionRange:
+                        self.target = org
+                        self.chase(org,direction)
+                        return
+
+    def detectOrgsToCoito(self,orgs):
+        for org in orgs:
+            if org != self and org.isAlive:
+                distance , direction = self.getDirection(org)
+                if self.genero != org.genero and self.especie == org.especie:
+                    if distance < self.visionRange:
+                        self.target = org
+                        self.coito(org,direction)
+                        return
+    
+    def coito(self,target,direction):
+        pass
+    
     def chase(self,target,direction):
         if not target.isAlive:
             self.target = None
@@ -95,6 +109,7 @@ class Animal(Organismo):
                     self.die()
                     return
         else: return
+
         if self.isChasing:
             if self.target and self.getDirection(self.target)[0] > self.visionRange:
                 self.isChasing = False
@@ -110,4 +125,3 @@ class Animal(Organismo):
                 self.attackTarget(self.target)
         else:
             self.move(orgs)
-                    

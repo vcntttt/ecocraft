@@ -16,6 +16,9 @@ class Organismo(pygame.sprite.Sprite):
         self.nivelTrofico = nTrofico
         # status
         self.isAlive = True
+        self.isBorning = False
+        self.borningTime = 25
+        self.borningProgress = 0
         self.isDecomposing = False
         self.decompositionTime = 20
         self.decompositionProgress = 0
@@ -42,15 +45,24 @@ class Organismo(pygame.sprite.Sprite):
     def update(self,orgs):
         if self.isDecomposing:
             self.decompositionProgress += 1
-            self.drawBar()
+            self.drawBar(yellow, self.decompositionProgress, self.decompositionTime)
             if self.decompositionProgress >= self.decompositionTime:
                 self.kill()
-    
-    def drawBar(self):
-        barWidth = self.rect.width * (self.decompositionProgress / self.decompositionTime)
+        if self.isBorning:
+            self.borningProgress += 1
+            self.drawBar(lighGreen, self.borningProgress, self.borningTime)
+            if self.borningProgress >= self.borningTime:
+                self.isBorning = False
+                self.isDecomposing = True
+                self.decompositionProgress = 0
+                self.hp = self.maxHp
+                self.energy = self.maxEnergy
+
+    def drawBar(self, color, param, total):
+        barWidth = self.rect.width * (param / total)
         barHeight = 10
         bar = pygame.Surface((barWidth,barHeight))
-        bar.fill(yellow)
+        bar.fill(color)
 
         decomImg = self.image.copy()
         barPos = (0,self.rect.height - barHeight)
