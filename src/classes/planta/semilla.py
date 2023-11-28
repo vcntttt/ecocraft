@@ -1,6 +1,6 @@
 from classes.organismo import Organismo
 from constants import *
-
+import random
 class Semilla(Organismo):
     def __init__(self, ecosistema):
         self.ecosistema = ecosistema
@@ -20,8 +20,8 @@ class Semilla(Organismo):
 
     def transformar(self):
         from classes.planta.planta import Planta
-        newPlanta = Planta(self.ecosistema)
-        newPlanta.rect.topleft = self.rect.topleft
-        self.ecosistema.newOrg(newPlanta)
-        self.kill()
-    
+        if random.randint(0,1) == 0:
+            newPlanta = Planta(self.ecosistema)
+            newPlanta.rect.topleft = self.rect.topleft
+            self.ecosistema.newOrg(newPlanta)
+            self.kill()

@@ -13,13 +13,13 @@ class Ecosistema:
         self.dieCount = 0
 
     def initOrgs(self):
-        for _ in range(2):
+        for _ in range(4):
             animal = Puma(self)
             self.orgsGroup.add(animal)
-        for _ in range(16):
+        for _ in range(8):
             animal = Oveja(self)
             self.orgsGroup.add(animal)
-        for _ in range(10):
+        for _ in range(12):
             planta = Planta(self)
             self.orgsGroup.add(planta)
         # condor = Condor(self)

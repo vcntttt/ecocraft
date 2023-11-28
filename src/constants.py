@@ -2,7 +2,7 @@ import pygame
 
 # Parametros
 cellSize = 64
-cellNum = 15
+cellNum = 30
 viewCellNum = 15
 # Dimensiones
 menuWidth = cellSize * 5

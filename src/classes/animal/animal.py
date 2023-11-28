@@ -3,6 +3,7 @@ from pygame.math import Vector2
 from classes.organismo import Organismo
 from constants import *
 from classes.planta.planta import Planta
+from classes.planta.semilla import Semilla
 class Animal(Organismo):
     def __init__(self,sprite, hp, nrg, nTrofico, attackRange, visionRange, attack, especie ,ecosistema ,speed=0.15, ):
         self.genero = random.randint(0,1) #0 para hembra y 1 para macho
@@ -45,7 +46,7 @@ class Animal(Organismo):
     def detectOrgs(self,orgs):
         if self.energy >= self.maxEnergy: return
         for org in orgs:
-            if org != self and org.isAlive:
+            if org != self and org.isAlive and not isinstance(org, Semilla):
                 distance , direction = self.getDirection(org)
                 if org.nivelTrofico == (self.nivelTrofico - 1):
                     if distance < self.visionRange:
@@ -100,6 +101,9 @@ class Animal(Organismo):
         if self.rect.colliderect(self.target.rect):
             self.targetAlcanzado(target)
 
+    def run(self,predator):
+        pass
+    
     def targetAlcanzado(self,target):
         self.isChasing = False
         self.isHiting = True
@@ -107,7 +111,7 @@ class Animal(Organismo):
     def attackTarget(self,target):
         if not target: return
         target.hp -= self.attack
-        self.energy += (target.maxHp / 2)
+        self.energy += min(target.maxHp/2,self.maxEnergy-self.energy)
         if target.hp <= 0:
             if isinstance(target, Planta):
                 if target.enReposo: return
@@ -118,7 +122,7 @@ class Animal(Organismo):
 
     def update(self, orgs):
         super().update(orgs)
-        if self.isAlive:
+        if self.isAlive and isinstance(self, Animal):
             self.energy -= 0.5
             if self.energy <= 0:
                 self.hp -= 1
@@ -134,11 +138,24 @@ class Animal(Organismo):
             else:
                 _, direction = self.getDirection(self.target)
                 self.chase(self.target, direction)
+                self.target.run(self)
         elif self.isHiting:
             if self.target and not self.target.isAlive:
                 self.isHiting = False
                 self.target = None
             else:
                 self.attackTarget(self.target)
+
+        elif self.isBorning:
+            self.borningProgress += 1
+            self.drawBar(red, self.borningProgress, self.borningTime)
+            if self.borningProgress >= self.borningTime:
+                self.isBorning = False
+                self.isDecomposing = True
+                self.isAlive = True
+                self.decompositionProgress = 0
+                self.hp = self.maxHp
+                self.energy = self.maxEnergy
         else:
             self.move(orgs)
+        

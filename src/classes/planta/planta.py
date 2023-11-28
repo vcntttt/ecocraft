@@ -21,7 +21,7 @@ class Planta (Organismo):
                 if self.energy >= self.reproduccionNRG:
                     self.energy = 5
                     self.enReposo = True
-                    if random.random() < 0.7:
+                    if random.random() < 0.5:
                         self.reproducir()
 
     def reproducir(self):
@@ -32,7 +32,10 @@ class Planta (Organismo):
                 self.rect.x + random.randint(-cellSize *2,cellSize *2),
                 self.rect.y + random.randint(-cellSize *2,cellSize *2)
             )
-            self.ecosistema.newOrg(newSeed)
+            from classes.ecosistema import Ecosistema
+            if isinstance(self.ecosistema, Ecosistema):
+                self.ecosistema.newOrg(newSeed)
+            else: continue
             self.ecosistema.bornCount += 1
         self.finishReproduction()
 

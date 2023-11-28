@@ -54,16 +54,6 @@ class Organismo(pygame.sprite.Sprite):
                     newPlant.rect.topleft = self.rect.topleft
                     orgs.add(newPlant)
                 self.kill()
-                
-        if self.isBorning:
-            self.borningProgress += 1
-            self.drawBar(red, self.borningProgress, self.borningTime)
-            if self.borningProgress >= self.borningTime:
-                self.isBorning = False
-                self.isDecomposing = True
-                self.decompositionProgress = 0
-                self.hp = self.maxHp
-                self.energy = self.maxEnergy
 
     def drawBar(self, color, param, total):
         barWidth = self.rect.width * (param / total)
