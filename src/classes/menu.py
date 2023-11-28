@@ -29,7 +29,7 @@ class Menu:
             else:
                 genero = 'P'
             if org.hp >= 0:
-                string = (f"{org.__class__.__name__}{org.rect.topleft}({genero}) - HP: {org.hp} - Energy: {org.energy}")
+                string = (f"{org.__class__.__name__}{org.rect.topleft}({genero})({org.status}) - HP: {org.hp} - Energy: {org.energy}")
                 orgText = self.normalFont.render(string, True, black)
                 self.menuSurface.blit(orgText, (10, ypos))
                 ypos += 30

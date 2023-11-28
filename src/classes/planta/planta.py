@@ -8,7 +8,6 @@ class Planta (Organismo):
         self.reproduccionTime = 40
         self.reproduccionProgress = 0
         self.ecosistema = ecosistema
-        self.enReposo = False
         super().__init__(
             plantaSprite, 
             50, 
@@ -20,12 +19,13 @@ class Planta (Organismo):
                 self.energy += 5
                 if self.energy >= self.reproduccionNRG:
                     self.energy = 5
-                    self.enReposo = True
+                    self.status = 'coitoVegano'
                     if random.random() < 0.5:
                         self.reproducir()
 
     def reproducir(self):
         nSemillas = random.randint(1,2)
+        self.status = 'pregnat'
         for i in range(nSemillas):
             newSeed = Semilla(self.ecosistema)
             newSeed.rect.topleft = (
@@ -40,5 +40,9 @@ class Planta (Organismo):
         self.finishReproduction()
 
     def finishReproduction(self):
-        self.enReposo = False
-        self.die()
+        self.status = 'alive'
+        if random.random() < 0.5:
+            self.die()
+
+    def run(self,predator):
+        pass

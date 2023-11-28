@@ -5,7 +5,7 @@ cellSize = 64
 cellNum = 30
 viewCellNum = 15
 # Dimensiones
-menuWidth = cellSize * 5
+menuWidth = cellSize * 10
 resolution = (viewCellNum * cellSize + menuWidth, viewCellNum * cellSize)
 visibleSize = (viewCellNum * cellSize, viewCellNum * cellSize)
 mapSize = (cellNum * cellSize, cellNum * cellSize)

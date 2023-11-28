@@ -25,3 +25,4 @@ class Carnivoro(Animal):
             especie, 
             ecosistema,
             speed)
+        

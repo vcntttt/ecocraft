@@ -13,13 +13,13 @@ class Ecosistema:
         self.dieCount = 0
 
     def initOrgs(self):
-        for _ in range(4):
+        for _ in range(8):
             animal = Puma(self)
             self.orgsGroup.add(animal)
-        for _ in range(8):
+        for _ in range(20):
             animal = Oveja(self)
             self.orgsGroup.add(animal)
-        for _ in range(12):
+        for _ in range(10):
             planta = Planta(self)
             self.orgsGroup.add(planta)
         # condor = Condor(self)
@@ -28,7 +28,6 @@ class Ecosistema:
     def update(self, gameHour):
         for org in self.orgsGroup:
             if (isinstance(org, Animal)):
-                if org.isAlive:
                     org.detectOrgs(self.orgsGroup)
                     org.detectOrgsToCoito(self.orgsGroup)
             if isinstance(org, Planta):

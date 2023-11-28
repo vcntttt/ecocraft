@@ -4,20 +4,25 @@ from classes.organismo import Organismo
 from constants import *
 from classes.planta.planta import Planta
 from classes.planta.semilla import Semilla
+#estados:
+# 1. alive
+# 2. descomposing
+# 3 pregnat
+# 4. chasing
+# 5. being chased
+# 6. borning
+# 4. dead
+
 class Animal(Organismo):
     def __init__(self,sprite, hp, nrg, nTrofico, attackRange, visionRange, attack, especie ,ecosistema ,speed=0.15, ):
         self.genero = random.randint(0,1) #0 para hembra y 1 para macho
         self.animationSpeed = speed
-        self.isChasing = False
-        self.isHiting = False
-        self.isBeingChased = False
         self.target = None
         self.attackRange = attackRange
         self.visionRange = visionRange
         self.attack = attack
         self.especie = especie
         self.ecosistema = ecosistema
-        self.isPregnant = False
         super().__init__(sprite, hp, nrg, nTrofico)
 
     def move(self, orgs):
@@ -46,20 +51,24 @@ class Animal(Organismo):
     def detectOrgs(self,orgs):
         if self.energy >= self.maxEnergy: return
         for org in orgs:
-            if org != self and org.isAlive and not isinstance(org, Semilla):
+            if org != self and org.status == 'alive':
                 distance , direction = self.getDirection(org)
                 if org.nivelTrofico == (self.nivelTrofico - 1):
                     if distance < self.visionRange:
                         self.target = org
                         self.chase(org,direction)
+                        if not self.target: return
+                        self.target.run(self)
                         return
 
     def detectOrgsToCoito(self,orgs):
         for org in orgs:
-            if org != self and org.isAlive:
+            if org != self and org.status == 'alive':
                 distance , direction = self.getDirection(org)
                 if isinstance(org, Animal):
-                    if self.genero != org.genero and self.especie == org.especie and (self.energy > 25 and org.energy > 25) and not (self.isPregnant or org.isPregnant):
+                    if self.genero != org.genero and self.especie == org.especie and (self.energy > 25 and org.energy > 25) and not (
+                        self.status != 'pregnat' and org.status != 'pregnat'
+                    ):
                         if distance < self.visionRange * 2:
                             self.target = org
                             self.coito(org,direction)
@@ -71,7 +80,7 @@ class Animal(Organismo):
         couple = [self, target]
         for org in couple:
             if org.genero == 0:
-                org.isPregnant = True
+                org.status = 'pregnat'
 
         self.rect.x += direction.x * 1
         self.rect.y += direction.y * 1 
@@ -83,20 +92,21 @@ class Animal(Organismo):
                 newAnimal = Oveja(self.ecosistema)
 
             newAnimal.rect.topleft = self.rect.topleft
-            newAnimal.isAlive = False
-            newAnimal.isBorning = True
+            newAnimal.status = 'borning'
             self.ecosistema.newOrg(newAnimal)
             self.ecosistema.bornCount += 1
-    
+            for org in couple:
+                org.status = 'alive'
+
     def chase(self,target,direction):
-        if not target.isAlive:
+        if not self.status == 'alive':
             self.target = None
-            self.isChasing = False
+            self.status = 'alive'
             return
-        self.isChasing = True
-        target.isBeingChased = True
-        self.rect.x += direction.x * 1
-        self.rect.y += direction.y * 1
+        self.status = 'chasing'
+        target.status = 'beingChased'
+        self.rect.x += direction.x * cellSize
+        self.rect.y += direction.y * cellSize
 
         if self.rect.colliderect(self.target.rect):
             self.targetAlcanzado(target)
@@ -105,57 +115,49 @@ class Animal(Organismo):
         pass
     
     def targetAlcanzado(self,target):
-        self.isChasing = False
-        self.isHiting = True
+        self.status = 'hiting'
 
     def attackTarget(self,target):
         if not target: return
         target.hp -= self.attack
         self.energy += min(target.maxHp/2,self.maxEnergy-self.energy)
         if target.hp <= 0:
-            if isinstance(target, Planta):
-                if target.enReposo: return
                 target.die()
                 self.ecosistema.dieCount += 1
-                self.isHiting = False
+                self.status = 'alive'
                 self.target = None
 
     def update(self, orgs):
         super().update(orgs)
-        if self.isAlive and isinstance(self, Animal):
-            self.energy -= 0.5
-            if self.energy <= 0:
-                self.hp -= 1
-                if self.hp <= 0:
-                    self.die()
-                    return
-        else: return
+        self.energy -= 0.5
+        if self.energy <= 0:
+            self.hp -= 1
+            if self.hp <= 0:
+                self.die()
+                self.ecosistema.dieCount += 1
 
-        if self.isChasing:
+        if self.status == 'chasing':
             if self.target and self.getDirection(self.target)[0] > self.visionRange:
-                self.isChasing = False
-                self.target = None
+                self.status = 'alive'
             else:
                 _, direction = self.getDirection(self.target)
                 self.chase(self.target, direction)
-                self.target.run(self)
-        elif self.isHiting:
-            if self.target and not self.target.isAlive:
-                self.isHiting = False
+                
+        elif self.status == 'hiting':
+            if self.target and not self.target.status == 'alive':
                 self.target = None
+                self.status = 'alive'
             else:
                 self.attackTarget(self.target)
 
-        elif self.isBorning:
+        elif self.status == 'borning':
             self.borningProgress += 1
             self.drawBar(red, self.borningProgress, self.borningTime)
             if self.borningProgress >= self.borningTime:
-                self.isBorning = False
-                self.isDecomposing = True
-                self.isAlive = True
+                self.status = 'alive'
                 self.decompositionProgress = 0
                 self.hp = self.maxHp
                 self.energy = self.maxEnergy
-        else:
+        elif self.status == 'alive':
             self.move(orgs)
         

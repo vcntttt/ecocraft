@@ -12,6 +12,7 @@ class Semilla(Organismo):
             1,
             0
         )
+        self.status = 'seed'
     def update(self,orgs):
         self.crecimientoProgress += 1
         self.drawBar(lighBlue, self.crecimientoProgress, self.crecimientoTime)
@@ -20,7 +21,7 @@ class Semilla(Organismo):
 
     def transformar(self):
         from classes.planta.planta import Planta
-        if random.randint(0,1) == 0:
+        if random.randint(0,3) == 0:
             newPlanta = Planta(self.ecosistema)
             newPlanta.rect.topleft = self.rect.topleft
             self.ecosistema.newOrg(newPlanta)
