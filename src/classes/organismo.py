@@ -53,9 +53,11 @@ class Organismo(pygame.sprite.Sprite):
             if self.decompositionProgress >= self.decompositionTime:
                 # Si el organismo esta completamente descompuesto, reemplaza por otro organismo
                 from classes.animal.animal import Animal
-                from classes.planta.planta import Planta
+                from classes.planta.amapola import Amapola
+                from classes.planta.girasol import Girasol
                 if isinstance(self, Animal):  # Si el organismo es un animal, reemplazalo con una planta
-                    newPlant = Planta(plantaSprite)
+                    plantas = [Amapola,Girasol]
+                    newPlant = random.choice(plantas)(self.ecosistema) 
                     newPlant.rect.topleft = self.rect.topleft
                     orgs.add(newPlant)
                 self.kill()  # Elimina el organismo actual

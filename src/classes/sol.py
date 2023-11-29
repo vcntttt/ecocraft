@@ -18,7 +18,6 @@ class Sol(pygame.sprite.Sprite):
 
     def update(self,gameHour):
         if minHrSol <= gameHour <=maxHrSol:
-            print ("Visible")
             if not self.visible:
                 self.visible = True
                 self.rect.x = 0 -self.image.get_width()

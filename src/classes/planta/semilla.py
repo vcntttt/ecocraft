@@ -20,9 +20,16 @@ class Semilla(Organismo):
 
     def transformar(self):
         # Método para transformar la semilla en una Planta
-        from classes.planta.planta import Planta  # Importa la clase Planta del módulo classes.planta.planta
+        from classes.planta.paja import Paja  # Importa la clase Planta del módulo classes.planta.planta
+        from classes.planta.amapola import Amapola
+        from classes.planta.matorral import Matorral
+        from classes.planta.girasol import Girasol
+        from classes.planta.juncos import Juncos
         if random.randint(0, 3) == 0:  # Realiza una elección aleatoria para la transformación
-            newPlanta = Planta(self.ecosistema)  # Crea una nueva instancia de Planta con el ecosistema proporcionado
+            plantas = [Paja,Amapola,Matorral,Girasol,Juncos]
+
+
+            newPlanta = random.choice(plantas)(self.ecosistema)  # Crea una nueva instancia de Planta con el ecosistema proporcionado
             newPlanta.rect.topleft = self.rect.topleft  # Establece la posición de la nueva planta
             self.ecosistema.newOrg(newPlanta)  # Agrega la nueva planta al ecosistema
             self.kill()  # Elimina la semilla

@@ -47,6 +47,13 @@ conejoSprite = loadImg('assets/conejo.png')
 cabraSprite = loadImg('assets/cabra.png')
 zorroSprite = loadImg('assets/zorro.png')
 nanduSprite = loadImg('assets/nandu.png')
+cocodriloSprite = loadImg('assets/cocodrilo.png')
+gorreonSprite = loadImg('assets/gorreon.png')
+pajaSprite = loadImg('assets/paja.png')
+matorralSprite = loadImg('assets/matorral.png')
+juncosSprite = loadImg('assets/junco.png')
+amapolaSprite = loadImg('assets/amapola.png')
+girasolSprite = loadImg('assets/girasol.png')
 # Font
 fontName = 'Minecraft'  # Nombre de la fuente
 

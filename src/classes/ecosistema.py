@@ -4,7 +4,18 @@ from classes.animal.condor import Condor  # Importa la clase Condor del módulo 
 from classes.animal.oveja import Oveja  # Importa la clase Oveja del módulo classes.animal.oveja
 from classes.planta.planta import Planta  # Importa la clase Planta del módulo classes.planta.planta
 from constants import *  # Importa constantes desde el archivo constants.py
-
+from classes.animal.zorro import Zorro
+from classes.animal.cocodrilo import Cocodrilo
+import random
+from classes.animal.conejo import Conejo
+from classes.animal.nandu import Nandu
+from classes.animal.cabra import Cabra
+from classes.animal.gorreon import Gorreon
+from classes.planta.paja import Paja
+from classes.planta.amapola import Amapola
+from classes.planta.matorral import Matorral
+from classes.planta.girasol import Girasol
+from classes.planta.juncos import Juncos
 class Ecosistema:
     def __init__(self):
         self.orgsGroup = pygame.sprite.Group()  # Crea un grupo de sprites para almacenar los organismos del ecosistema
@@ -16,14 +27,17 @@ class Ecosistema:
 
     def initOrgs(self):
         # Inicializa los organismos en el ecosistema
+        carnivoros= [Puma,Zorro, Cocodrilo]
+        herbivoros = [Oveja,Conejo,Nandu,Cabra, Gorreon]
+        plantas = [Paja,Amapola,Matorral,Girasol,Juncos]
         for _ in range(2):
-            animal = Puma(self)  # Crea instancias de Puma y las agrega al grupo de organismos
+            animal = random.choice(carnivoros)(self)  # Crea instancias de Animal y las agrega al grupo de organismos
             self.orgsGroup.add(animal)
         for _ in range(8):
-            animal = Oveja(self)  # Crea instancias de Oveja y las agrega al grupo de organismos
+            animal = random.choice(herbivoros)(self)  # Crea instancias de Animal y las agrega al grupo de organismos
             self.orgsGroup.add(animal)
         for _ in range(6):
-            planta = Planta(self)  # Crea instancias de Planta y las agrega al grupo de organismos
+            planta = random.choice(plantas)(self)  # Crea instancias de Planta y las agrega al grupo de organismos
             self.orgsGroup.add(planta)
         
         condor = Condor(self)  # Crea una instancia de Condor y la agrega al grupo de organismos

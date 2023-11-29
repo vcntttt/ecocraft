@@ -4,13 +4,13 @@ from constants import *  # Importa constantes desde el archivo constants.py
 import random
 
 class Planta(Organismo):
-    def __init__(self, ecosistema):
+    def __init__(self, sprite,hp,nrg ,ecosistema):
         # Inicializa una Planta en el ecosistema
         self.reproduccionNRG = 50  # Energia necesaria para la reproduccion
         self.reproduccionTime = 40  # Tiempo necesario para la reproduccion
         self.reproduccionProgress = 0  # Progreso actual de reproduccion
         self.ecosistema = ecosistema  # Asigna el ecosistema proporcionado
-        super().__init__(plantaSprite, 50, 10, 0)  # Inicializa la clase base (Organismo) con ciertos parametros
+        super().__init__(sprite, hp, nrg, 0)  # Inicializa la clase base (Organismo) con ciertos parametros
 
     def fotosintesis(self, gameHour):
         # Método para simular la fotosintesis de la planta
