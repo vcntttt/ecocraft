@@ -12,7 +12,7 @@ class Map:
         self.viewCoords = (0,0)
         self.matrix = map
         self.ecosistema = Ecosistema()
-        self.menu = Menu(self.ecosistema)
+        self.menu = Menu(self.ecosistema, (viewCellNum * cellSize, 0))
         self.loadMap()
 
     def loadMap(self):
@@ -60,11 +60,12 @@ class Map:
         
     def draw(self,gameHour):
         self.loadMap()
-        self.menu.draw(self.screen, (viewCellNum * cellSize, 0))
+        self.menu.draw(self.screen)
         self.drawMinimap()
         self.menu.updateHour(gameHour)
         self.menu.updateStates(self.ecosistema.orgsGroup)
         self.ecosistema.orgsGroup.draw(self.fullMapSurface)
         self.ecosistema.orgsGroup.update(self.ecosistema.orgsGroup)
         self.ecosistema.update(gameHour)
+        self.ecosistema.updateCSV()
         self.screen.blit(self.visibleSurface,(0,0))

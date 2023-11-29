@@ -25,3 +25,12 @@ class Descomponedor(Animal):
             especie, 
             ecosistema,
             speed)
+        
+    def detectOrgs(self, orgs):
+            for org in orgs:
+                if org != self and org.status == 'descomposing':
+                    distance, direction = self.getDirection(org)
+                    if distance < self.visionRange:
+                        self.target = org
+                        self.status = 'chasing'
+                        return

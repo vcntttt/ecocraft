@@ -23,6 +23,12 @@ class Animal(Organismo):
         self.attack = attack
         self.especie = especie
         self.ecosistema = ecosistema
+        # coito extras
+        self.gestationTime = 50
+        self.gestationProgress = 0
+        self.coitoCooldown = 100
+        self.coitoProgress = 0
+        #init del organismo
         super().__init__(sprite, hp, nrg, nTrofico)
 
     def move(self, orgs):
@@ -51,113 +57,128 @@ class Animal(Organismo):
     def detectOrgs(self,orgs):
         if self.energy >= self.maxEnergy: return
         for org in orgs:
-            if org != self and org.status == 'alive':
+            if org != self and org.status == 'alive' and self.status == 'alive':
                 distance , direction = self.getDirection(org)
                 if org.nivelTrofico == (self.nivelTrofico - 1):
                     if distance < self.visionRange:
                         self.target = org
-                        self.chase(org,direction)
-                        if not self.target: return
-                        self.target.run(self)
+                        self.status = 'chasing'
+                        self.target.run(direction)
                         return
 
     def detectOrgsToCoito(self,orgs):
         for org in orgs:
-            if org != self and org.status == 'alive':
+            if org != self and org.status == 'alive' and self.status == 'alive':
                 distance , direction = self.getDirection(org)
                 if isinstance(org, Animal):
-                    if self.genero != org.genero and self.especie == org.especie and (self.energy > 25 and org.energy > 25) and not (
-                        self.status != 'pregnat' and org.status != 'pregnat'
-                    ):
+                    if self.genero != org.genero and self.especie == org.especie and (self.energy > 25 and org.energy > 25) and org.status == 'alive' and not self.status == 'pregnat':
                         if distance < self.visionRange * 2:
                             self.target = org
                             self.coito(org,direction)
                             return
     
     def coito(self,target,direction):
-        from classes.animal.oveja import Oveja
-        from classes.animal.puma import Puma
+        
         couple = [self, target]
-        for org in couple:
-            if org.genero == 0:
-                org.status = 'pregnat'
-
         self.rect.x += direction.x * 1
         self.rect.y += direction.y * 1 
 
         if pygame.sprite.collide_rect(self, target):
-            if self.especie == 'puma':
-                newAnimal = Puma(self.ecosistema)
-            elif self.especie == 'oveja':
-                newAnimal = Oveja(self.ecosistema)
-
-            newAnimal.rect.topleft = self.rect.topleft
-            newAnimal.status = 'borning'
-            self.ecosistema.newOrg(newAnimal)
-            self.ecosistema.bornCount += 1
             for org in couple:
-                org.status = 'alive'
+                if org.genero == 0:
+                    org.status = 'pregnat'
+            self.gestationProgress = 0
+            self.coitoProgress = self.coitoCooldown
 
-    def chase(self,target,direction):
-        if not self.status == 'alive':
-            self.target = None
-            self.status = 'alive'
-            return
-        self.status = 'chasing'
-        target.status = 'beingChased'
+    def chase(self,direction):
         self.rect.x += direction.x * cellSize
         self.rect.y += direction.y * cellSize
 
-        if self.rect.colliderect(self.target.rect):
-            self.targetAlcanzado(target)
+        if self.attackRange >= self.getDirection(self.target)[0]:
+            self.status = 'hiting'
 
-    def run(self,predator):
-        pass
-    
-    def targetAlcanzado(self,target):
-        self.status = 'hiting'
+    def run(self,direction):
+        dx = -direction[0]
+        dy = -direction[1]
 
-    def attackTarget(self,target):
-        if not target: return
-        target.hp -= self.attack
-        self.energy += min(target.maxHp/2,self.maxEnergy-self.energy)
-        if target.hp <= 0:
-                target.die()
+        newX = self.rect.x + dx * cellSize
+        newY = self.rect.y + dy * cellSize
+        newX = max(0, min(newX, (cellNum - 1) * cellSize))
+        newY = max(0, min(newY, (cellNum - 1) * cellSize))
+        
+        self.rect.topleft = (newX, newY)
+
+    def attackTarget(self):
+        self.target.hp -= self.attack
+        self.energy += min(self.target.maxHp/2,self.maxEnergy-self.energy)
+        if self.target.hp <= 0:
+                self.target.die()
                 self.ecosistema.dieCount += 1
+                if isinstance(self.target, Planta):
+                    especie = 'planta'
+                else: especie = self.target.especie
+                print(f'{self.especie} kill {especie}')
                 self.status = 'alive'
                 self.target = None
+
+    def newAnimal(self):
+        from classes.animal.oveja import Oveja
+        from classes.animal.puma import Puma
+        from classes.animal.condor import Condor
+        if self.especie == 'puma':
+            newAnimal = Puma(self.ecosistema)
+        elif self.especie == 'oveja':
+            newAnimal = Oveja(self.ecosistema)
+        elif self.especie == 'condor':
+            newAnimal = Condor(self.ecosistema)
+        else:
+            return
+        newAnimal.rect.topleft = self.rect.topleft
+        newAnimal.status = 'borning'
+        self.ecosistema.newOrg(newAnimal)
+        self.ecosistema.bornCount += 1
 
     def update(self, orgs):
         super().update(orgs)
-        self.energy -= 0.5
-        if self.energy <= 0:
-            self.hp -= 1
-            if self.hp <= 0:
-                self.die()
-                self.ecosistema.dieCount += 1
+        if self.status == 'alive':
+            self.energy -= 0.5
+            if self.energy <= 0:
+                self.hp -= 1
+                if self.hp <= 0:
+                    self.die()
+                    self.ecosistema.dieCount += 1
 
         if self.status == 'chasing':
-            if self.target and self.getDirection(self.target)[0] > self.visionRange:
-                self.status = 'alive'
-            else:
-                _, direction = self.getDirection(self.target)
-                self.chase(self.target, direction)
+            _, direction = self.getDirection(self.target)
+            self.chase(direction)
                 
         elif self.status == 'hiting':
-            if self.target and not self.target.status == 'alive':
+            if not self.target:
                 self.target = None
                 self.status = 'alive'
             else:
-                self.attackTarget(self.target)
+                self.attackTarget()
 
         elif self.status == 'borning':
             self.borningProgress += 1
             self.drawBar(red, self.borningProgress, self.borningTime)
             if self.borningProgress >= self.borningTime:
                 self.status = 'alive'
-                self.decompositionProgress = 0
-                self.hp = self.maxHp
-                self.energy = self.maxEnergy
+                self.image = self.originalImg
+            return
+        elif self.status == 'pregnat':
+            self.gestationProgress += 1
+            self.drawBar(orange, self.gestationProgress, self.gestationTime)
+            if self.gestationProgress >= self.gestationTime:
+                self.newAnimal()
+                self.status = 'alive'
+                self.gestationProgress = 0
+                self.image = self.originalImg
+                return
+            if self.coitoCooldown > 0:
+                self.coitoCooldown -= 1
+            return
+        elif self.status == 'descomposing':
+            return
         elif self.status == 'alive':
             self.move(orgs)
-        

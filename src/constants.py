@@ -2,7 +2,7 @@ import pygame
 
 # Parametros
 cellSize = 64
-cellNum = 30
+cellNum = 15
 viewCellNum = 15
 # Dimensiones
 menuWidth = cellSize * 10
@@ -18,6 +18,8 @@ black = pygame.Color('#000000')
 yellow = pygame.Color('#FFFF00')
 red = pygame.Color('#FF0000')
 lighBlue = pygame.Color('#ADD8E6')
+white = pygame.Color('#FFFFFF')
+orange = pygame.Color('#FFA500')
 # Sprites
 def loadImg(path):
     return pygame.transform.scale(pygame.image.load(path), (cellSize, cellSize))

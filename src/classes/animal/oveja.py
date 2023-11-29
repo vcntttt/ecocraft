@@ -7,8 +7,8 @@ class Oveja(Herviboro):
         self.energy = 50
         self.attack = 10
         self.especie = 'oveja'
-        self.attackRange = 0 * cellSize
-        self.visionRange = 2 * cellSize
+        self.attackRange = 2 * cellSize
+        self.visionRange = 6 * cellSize
         
         super().__init__(
             ovejaSprite,

@@ -20,6 +20,7 @@ class Organismo(pygame.sprite.Sprite):
         self.borningProgress = 0
         self.decompositionTime = 20
         self.decompositionProgress = 0
+        self.originalImg = sprite.copy()
 
         while True:
             newPos = (random.randint(0, cellNum - 1)*cellSize, random.randint(0, cellNum - 1)*cellSize)
@@ -29,6 +30,7 @@ class Organismo(pygame.sprite.Sprite):
         self.rect.topleft = newPos
 
     def die(self):
+        self.status = 'descomposing'
         greyImg = pygame.Surface(self.image.get_size())
         greyImg = greyImg.convert_alpha()
         for x in range(greyImg.get_width()):
@@ -37,7 +39,6 @@ class Organismo(pygame.sprite.Sprite):
                 grey = (red + green + blue) // 3
                 greyImg.set_at((x,y),(grey,grey,grey,alpha))
         self.image = greyImg
-        self.status = 'descomposing'
 
     def update(self,orgs):
         if self.status == 'descomposing':

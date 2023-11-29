@@ -24,7 +24,7 @@ class Planta (Organismo):
                         self.reproducir()
 
     def reproducir(self):
-        nSemillas = random.randint(1,2)
+        nSemillas = 1
         self.status = 'pregnat'
         for i in range(nSemillas):
             newSeed = Semilla(self.ecosistema)
@@ -44,5 +44,5 @@ class Planta (Organismo):
         if random.random() < 0.5:
             self.die()
 
-    def run(self,predator):
+    def run(self,direction):
         pass
