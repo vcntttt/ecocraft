@@ -1,57 +1,61 @@
-from classes.animal.animal import Animal
-from classes.animal.puma import Puma
-from classes.animal.condor import Condor
-from classes.animal.oveja import Oveja
-from classes.planta.planta import Planta
-from constants import *
+from classes.animal.animal import Animal  # Importa la clase Animal del modulo classes.animal.animal
+from classes.animal.puma import Puma  # Importa la clase Puma del modulo classes.animal.puma
+from classes.animal.condor import Condor  # Importa la clase Condor del módulo classes.animal.condor
+from classes.animal.oveja import Oveja  # Importa la clase Oveja del módulo classes.animal.oveja
+from classes.planta.planta import Planta  # Importa la clase Planta del módulo classes.planta.planta
+from constants import *  # Importa constantes desde el archivo constants.py
 
 class Ecosistema:
     def __init__(self):
-        self.orgsGroup = pygame.sprite.Group()
-        self.initOrgs()
-        self.initCSV()
-        self.bornCount = 0
-        self.dieCount = 0
-        self.cicloCount = 0
-        
+        self.orgsGroup = pygame.sprite.Group()  # Crea un grupo de sprites para almacenar los organismos del ecosistema
+        self.initOrgs()  # Inicializa los organismos en el ecosistema
+        self.initCSV()  # Inicializa los archivos CSV para registrar datos del ecosistema
+        self.bornCount = 0  # Contador de nacimientos
+        self.dieCount = 0  # Contador de muertes
+        self.cicloCount = 0  # Contador de ciclos o turnos en el ecosistema
+
     def initOrgs(self):
+        # Inicializa los organismos en el ecosistema
         for _ in range(2):
-            animal = Puma(self)
+            animal = Puma(self)  # Crea instancias de Puma y las agrega al grupo de organismos
             self.orgsGroup.add(animal)
         for _ in range(8):
-            animal = Oveja(self)
+            animal = Oveja(self)  # Crea instancias de Oveja y las agrega al grupo de organismos
             self.orgsGroup.add(animal)
         for _ in range(6):
-            planta = Planta(self)
+            planta = Planta(self)  # Crea instancias de Planta y las agrega al grupo de organismos
             self.orgsGroup.add(planta)
         
-        condor = Condor(self)
+        condor = Condor(self)  # Crea una instancia de Condor y la agrega al grupo de organismos
         self.orgsGroup.add(condor)
         
     def update(self, gameHour):
+        # Actualiza los organismos en el ecosistema segun la hora del juego
         for org in self.orgsGroup:
             if (isinstance(org, Animal)):
-                    org.detectOrgs(self.orgsGroup)
-                    org.detectOrgsToCoito(self.orgsGroup)
+                org.detectOrgs(self.orgsGroup)  # Los animales detectan otros organismos
+                org.detectOrgsToCoito(self.orgsGroup)  # Los animales detectan otros organismos para coito
             if isinstance(org, Planta):
-                org.fotosintesis(gameHour)
+                org.fotosintesis(gameHour)  # Las plantas realizan fotosintesis
 
     def initCSV(self):
+        # Inicializa los archivos CSV para registrar datos del ecosistema
         with open('data/natalidad.csv', 'w') as file:
-            file.write('ciclo,bornCount,dieCount\n')
+            file.write('ciclo,bornCount,dieCount\n')  # Encabezado para el archivo de natalidad
 
         with open('data/censo.csv', 'w') as file:
-            file.write('ciclo,especie,cantidad\n')
+            file.write('ciclo,especie,cantidad\n')  # Encabezado para el archivo de censo
 
     def updateCSV(self):
-        self.cicloCount += 1
+        # Actualiza los archivos CSV con datos del ecosistema
+        self.cicloCount += 1  # Incrementa el contador de ciclos
         with open('data/natalidad.csv', 'a') as file:
-            file.write(f'{self.cicloCount},{self.bornCount},{self.dieCount}\n')
+            file.write(f'{self.cicloCount},{self.bornCount},{self.dieCount}\n')  # Escribe datos de natalidad en el archivo
 
         with open('data/censo.csv', 'a') as file:
             for org in self.orgsGroup:
                 if isinstance(org, Animal):
-                    file.write(f'gola\n')
+                    file.write(f'gola\n')  # Escribe datos de censo de animales en el archivo
 
     def newOrg(self, org):
-        self.orgsGroup.add(org)
+        self.orgsGroup.add(org)  # Agrega un nuevo organismo al grupo del ecosistema

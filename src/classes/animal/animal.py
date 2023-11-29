@@ -14,22 +14,31 @@ from classes.planta.semilla import Semilla
 # 4. dead
 
 class Animal(Organismo):
-    def __init__(self,sprite, hp, nrg, nTrofico, attackRange, visionRange, attack, especie ,ecosistema ,speed=0.15, ):
-        self.genero = random.randint(0,1) #0 para hembra y 1 para macho
+    def __init__(self, sprite, hp, nrg, nTrofico, attackRange, visionRange, attack, especie, ecosistema, speed=0.15):
+        # Asigna un género aleatorio: 0 para hembra y 1 para macho
+        self.genero = random.randint(0, 1)
+        # Establece la velocidad de animación
         self.animationSpeed = speed
-        self.target = None
+        # Define un objetivo inicialmente como nulo
+        self.target = None 
+        # Establece los rangos de ataque y visión
         self.attackRange = attackRange
         self.visionRange = visionRange
+        # Establece el valor de ataque
         self.attack = attack
+        # Define la especie del animal
         self.especie = especie
+        # Establece el ecosistema al que pertenece el animal
         self.ecosistema = ecosistema
-        # coito extras
+        # Atributos adicionales para el proceso de apareamiento
         self.gestationTime = 50
         self.gestationProgress = 0
         self.coitoCooldown = 100
         self.coitoProgress = 0
-        #init del organismo
+        
+        # Inicializa el organismo con los parámetros dados en la clase padre (Organismo)
         super().__init__(sprite, hp, nrg, nTrofico)
+
 
     def move(self, orgs):
             dx = random.choice([-1,0,1])  
