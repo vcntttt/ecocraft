@@ -10,4 +10,4 @@ class Condor(Descomponedor):
         self.attackRange = 2 * cellSize
         self.visionRange = 10 * cellSize
         self.speed = 2
-        super().__init__(condorSprite, self.hp, self.energy, self.attackRange, self.visionRange, self.attack, ecosistema,self.speed)
+        super().__init__(condorSprite, self.hp, self.energy, self.attackRange, self.visionRange, self.attack,self.especie, ecosistema,self.speed)

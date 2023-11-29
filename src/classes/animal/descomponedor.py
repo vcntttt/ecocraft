@@ -1,6 +1,5 @@
 from classes.animal.animal import Animal
-from classes.animal.herviboro import Herviboro
-import math
+
 class Descomponedor(Animal):
     def __init__(
             self,
@@ -12,7 +11,7 @@ class Descomponedor(Animal):
             attack, 
             especie, 
             ecosistema,
-            speed=0.15, ):
+            speed=0.15):
         
         super().__init__(
             sprite, 

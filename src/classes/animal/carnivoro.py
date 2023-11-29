@@ -12,7 +12,7 @@ class Carnivoro(Animal):
             attack, 
             especie, 
             ecosistema,
-            speed=0.15, ):
+            speed=0.15):
         
         super().__init__(
             sprite, 

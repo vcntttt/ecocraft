@@ -18,14 +18,15 @@ class Ecosistema:
         for _ in range(2):
             animal = Puma(self)
             self.orgsGroup.add(animal)
-            condor = Condor(self)
-            self.orgsGroup.add(condor)
-        for _ in range(6):
+        for _ in range(8):
             animal = Oveja(self)
             self.orgsGroup.add(animal)
         for _ in range(6):
             planta = Planta(self)
             self.orgsGroup.add(planta)
+        
+        condor = Condor(self)
+        self.orgsGroup.add(condor)
         
     def update(self, gameHour):
         for org in self.orgsGroup:
