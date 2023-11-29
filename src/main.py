@@ -2,7 +2,6 @@ import pygame
 import sys
 from constants import *
 from classes.map import Map
-from classes.rain import Gota
 
 class Game:
     def __init__(self):
@@ -18,7 +17,6 @@ class Game:
         
 
     def run(self):
-        # gotas = [Gota() for _ in range(100)]  
 
         while True:
             # Cerrar Ventana
@@ -30,10 +28,6 @@ class Game:
                     nMx,nMy = event.pos
                 if event.type == pygame.MOUSEBUTTONUP:
                     self.map.updateMap(nMx,nMy)
-
-            # for rain in gotas:
-            #     rain.caida()  
-            #     rain.show(self.screen)
 
             # Actualizar cosas
             self.time += self.clock.tick(60)
