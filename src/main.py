@@ -2,8 +2,8 @@ import pygame
 import sys
 from constants import *
 from classes.map import Map
-from classes.rain import Gota
 from classes.modal import Modal
+
 class Game:
     def __init__(self):
         pygame.init()
@@ -24,7 +24,6 @@ class Game:
                 return
             
     def run(self):
-        # gotas = [Gota() for _ in range(100)]  
 
         while True:
             # Cerrar Ventana
@@ -37,8 +36,6 @@ class Game:
                         self.pausar()
                 if event.type == pygame.MOUSEMOTION:
                     nMx,nMy = event.pos
-                if event.type == pygame.MOUSEBUTTONUP:
-                    self.map.updateMap(nMx,nMy)
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if self.map.menu.btnRect.collidepoint((event.pos[0] - self.map.menu.position[0], event.pos[1] - self.map.menu.position[1])):
