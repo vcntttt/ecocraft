@@ -35,6 +35,8 @@ Tenemos que ejecutar un par de comandos, para esto podemos usar la consola prede
     git clone  https://github.com/vcntttt/ecocraft.git
 
 2. Instalar mediante la terminal 
-    pip install pygames
-    pip install pandas 
-    pip install matplotlib
+    +pip install pygames
+    +pip install pandas 
+    +pip install matplotlib
+# 
+Ya teniendo los programas instalados y las librerias mediante la terminal, abrimosVisual Studio Code y abriremos la carpeta en la que se copio el repositorio, normalmente al instalar GitHub Desktop en la carpeta Documentos se encontrara la carpeta Github y dentro de ella se encontrara la carpeta "ecocraft" que será la carpeta donde esta alojado nuestro proyecto.
