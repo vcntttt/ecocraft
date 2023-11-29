@@ -20,8 +20,11 @@ red = pygame.Color('#FF0000')
 lighBlue = pygame.Color('#ADD8E6')
 white = pygame.Color('#FFFFFF')
 orange = pygame.Color('#FFA500')
-rainColor = (100, 150, 255)
-
+rainColor = (0, 0, 255)
+#Rango sol
+minHrSol = 10
+maxHrSol = 19
+sunSprite = pygame.transform.scale(pygame.image.load('assets/sun.png'), (100, 100))
 # Sprites (imagenes para los elementos del juego)
 def loadImg(path):
     return pygame.transform.scale(pygame.image.load(path), (cellSize, cellSize))
@@ -40,7 +43,10 @@ c2Sprite = loadImg('assets/c2.png')
 pd1Sprite = loadImg('assets/piedra.jpg')
 t1Sprite = loadImg('assets/tile1.jpg')
 seedSprite = loadImg('assets/seed.png')
-
+conejoSprite = loadImg('assets/conejo.png')
+cabraSprite = loadImg('assets/cabra.png')
+zorroSprite = loadImg('assets/zorro.png')
+nanduSprite = loadImg('assets/nandu.png')
 # Font
 fontName = 'Minecraft'  # Nombre de la fuente
 

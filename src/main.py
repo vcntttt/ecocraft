@@ -44,11 +44,14 @@ class Game:
                     # Verifica si se hizo clic en ciertos botones del menu y activa la ventana modal correspondiente
                     if self.map.menu.btnRect.collidepoint((event.pos[0] - self.map.menu.position[0], event.pos[1] - self.map.menu.position[1])):
                         self.modalWindow.toggle(0)  # Activa la ventana modal 0
-                        print('btn clicked')
+
                     if self.map.menu.btnRect2.collidepoint((event.pos[0] - self.map.menu.position[0], event.pos[1] - self.map.menu.position[1])):
                         self.modalWindow.toggle(1)  # Activa la ventana modal 1
-                        print('btn clicked')
 
+                    if self.map.menu.btnRect3.collidepoint((event.pos[0] - self.map.menu.position[0], event.pos[1] - self.map.menu.position[1])):
+                        self.map.toggleRain()  # Inicializa el efecto de lluvia
+                        print(self.map.isRaining)
+                        
             if self.modalWindow.active:  # Si la ventana modal está activa
                 self.modalWindow.draw(self.screen)  # Dibuja la ventana modal en la pantalla del juego
 

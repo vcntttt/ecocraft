@@ -3,6 +3,7 @@ from classes.ecosistema import Ecosistema  # Importa la clase Ecosistema del mó
 from classes.menu import Menu  # Importa la clase Menu del modulo classes.menu
 from constants import *  # Importa constantes desde el archivo constants.py
 from classes.rain import Raindrop
+from classes.sol import Sol
 class Map:
     def __init__(self, screen):
         self.screen = screen  # Establece la pantalla del juego
@@ -15,9 +16,9 @@ class Map:
         self.ecosistema = Ecosistema()  # Inicializa el ecosistema del juego
         self.menu = Menu(self.ecosistema, (viewCellNum * cellSize, 0))  # Crea el menu en la posición especificada
         self.loadMap()  # Carga el mapa inicial
-        # Lluvia
-        self.raindrops = []
-        self.initRain()
+        # Clima
+        self.isRaining = False
+        self.sun = Sol()
 
     def loadMap(self):
         # Carga el mapa inicial basado en la matriz
@@ -71,14 +72,21 @@ class Map:
             self.screen.blit(spriteScaled, (xp, yp))  # Dibuja el sprite del organismo en el minimapa
     # Lluvia
     def initRain(self):
-        print ("Init Rain")
+        self.isRaining = True
         self.raindropsGroup = pygame.sprite.Group()
-        for _ in range(10): #numero de gotas
+        for _ in range(50): #numero de gotas
             self.raindropsGroup.add(Raindrop())
 
     def updateRain(self):
-        self.raindropsGroup.add(Raindrop())
-        self.raindropsGroup.update()
+        if self.isRaining:
+            self.raindropsGroup.add(Raindrop())
+            self.raindropsGroup.update()
+
+    def toggleRain(self):
+        if not self.isRaining:
+            self.initRain()
+        else: 
+            self.isRaining = False
 
     def draw(self, gameHour):
         # Dibuja elementos en la pantalla del juego
@@ -92,7 +100,10 @@ class Map:
         self.ecosistema.update(gameHour)  # Actualiza el ecosistema según la hora del juego
         self.ecosistema.updateCSV()  # Actualiza el archivo CSV con los datos del ecosistema
         # Lluvia
-        self.updateRain()
-        self.raindropsGroup.draw(self.visibleSurface)
+        if self.isRaining:
+            self.updateRain()
+            self.raindropsGroup.draw(self.visibleSurface)
         # Actualizar
         self.screen.blit(self.visibleSurface, (0, 0))  # Dibuja la superficie visible del mapa en la pantalla
+        self.sun.update(gameHour)  # Actualiza el sol
+        self.sun.draw(self.screen)  # Dibuja el sol

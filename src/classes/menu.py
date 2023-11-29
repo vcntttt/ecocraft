@@ -53,8 +53,11 @@ class Menu:
         # Dibuja los botones en el menu en la pantalla del juego
         btnText = self.normalFont.render('Ver Grafico Natalidad/Mortalidad', True, black)  # Texto para el botón 1
         btnText2 = self.normalFont.render('Ver Poblacion', True, black)  # Texto para el botón 2
+        btnText3 = self.normalFont.render('Lluvia', True, black)  # Texto para el botón 3
         textRect = btnText.get_rect(center=self.btnRect.center)  # Posicion del texto del botón 1
         textRect2 = btnText2.get_rect(center=self.btnRect2.center)  # Posicion del texto del botón 2
+        textRect3 = btnText3.get_rect(center=self.btnRect3.center)  # Posicion del texto del botón 3
         self.menuSurface.blit(btnText, textRect)  # Dibuja el texto del botón 1 en la superficie del menu
         self.menuSurface.blit(btnText2, textRect2)  # Dibuja el texto del botón 2 en la superficie del menu
+        self.menuSurface.blit(btnText3, textRect3)  # Dibuja el texto del botón 3 en la superficie del menu
         screen.blit(self.menuSurface, self.position)  # Dibuja el menu en la pantalla del juego

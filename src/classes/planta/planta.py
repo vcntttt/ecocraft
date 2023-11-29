@@ -14,7 +14,7 @@ class Planta(Organismo):
 
     def fotosintesis(self, gameHour):
         # Método para simular la fotosintesis de la planta
-        if 10 <= gameHour <= 19:  # Si la hora del juego está entre 10 y 19 horas
+        if minHrSol <= gameHour <= maxHrSol:  # Si la hora del juego está entre 10 y 19 horas
             self.energy += 5  # La planta incrementa su energia en 5 unidades durante la fotosintesis
             if self.energy >= self.reproduccionNRG:  # Si la energia alcanza el umbral para reproducirse
                 self.energy = 5  # Restablece la energía a un valor inicial
