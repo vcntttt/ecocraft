@@ -20,6 +20,7 @@ red = pygame.Color('#FF0000')
 lighBlue = pygame.Color('#ADD8E6')
 white = pygame.Color('#FFFFFF')
 orange = pygame.Color('#FFA500')
+rainColor = (100, 150, 255)
 
 # Sprites (imagenes para los elementos del juego)
 def loadImg(path):
